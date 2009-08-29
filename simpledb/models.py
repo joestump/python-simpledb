@@ -55,6 +55,7 @@ class NumberField(Field):
         if self.precision > 0 and self.padding > 0:
             # Padding shouldn't include decimal digits or the decimal point.
             padding += self.precision + 1
+
         return ('%%0%d.%df' % (padding, self.precision)) % (value + self.offset)
 
     def decode(self, value):
@@ -64,6 +65,12 @@ class NumberField(Field):
         """
         return float(value) - self.offset
 
+class IntegerField(Field):
+    def encode(self, value):
+        return str(value)
+
+    def decode(self, value):
+        return int(value)
 
 class BooleanField(Field):
     def encode(self, value):
